@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from core.forms.registroForm import AtendenteForm, UsuarioAtendente, FilaEsperaForm
+from core.forms.registroForm import AtendenteForm, UsuarioAtendente, EspecialidadeForm, FilaEsperaForm
 from core.models import FilaEspera, Medico, Paciente
 
 def atendenteView(request):
@@ -12,8 +12,6 @@ def atendente_medicoView(request):
 def atendente_pacienteView(request):
         return render (request, template_name='atendente/atendente_paciente.html')
 
-def atendente_medicoCadastro(request):
-     return render (request, template_name='atendente/atendente_medicoCadastro.html')
 
 def cadastro_atendenteView(request):
    if str(request.method) == 'POST':
@@ -40,9 +38,28 @@ def cadastro_atendenteView(request):
       'atendente_form': atendente_form,
       'usuario_form': usuario_form
    }
-   print("testando")
 
    return render(request,'atendente/cadastro_atendente.html', context=context)
+
+def cadastro_especialidadeView(request):
+   if str(request.method) == 'POST':
+      especialidade_form = EspecialidadeForm(request.POST)
+
+      if especialidade_form.is_valid():
+         especialidade_form.save()
+         messages.success(request, 'Cadastro realizado com sucesso.')
+         return redirect('cadastro_especialidade')
+      else:
+         messages.error(request, 'Erro ao realizar o cadastro.')
+  
+   else:
+      especialidade_form = EspecialidadeForm()
+
+   context = {
+      'especialidade_form': especialidade_form
+   }
+
+   return render(request,'atendente/cadastro_especialidade.html', context=context)
 
 def mostrar_fila_espera(request):
    if str(request.method) == 'POST':

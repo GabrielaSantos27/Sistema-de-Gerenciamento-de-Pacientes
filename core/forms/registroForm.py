@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from core.models import Paciente, Usuario, Atendente
+from core.models import Paciente, Usuario, Atendente, FilaEspera
 
 class PacienteForm(forms.ModelForm):
     class Meta:
@@ -31,4 +31,12 @@ class UsuarioAtendente(UsuarioForm):
             usuario.save()
         return usuario
         
-
+class FilaEsperaForm(forms.ModelForm):
+    class Meta:
+        model = FilaEspera
+        fields = ['medico', 'paciente', 'estado']
+        widgets = {
+            'medico': forms.Select(attrs={'class': 'form-control'}),
+            'paciente': forms.Select(attrs={'class': 'form-control'}),
+            'estado': forms.Select(choices=[('Waiting', 'Em espera'), ('Attended', 'Atendido'), ('Cancelled', 'Cancelado')], attrs={'class': 'form-control'}),
+        }

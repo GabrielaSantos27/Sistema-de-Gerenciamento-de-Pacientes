@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="container">
+    <h1 class="my-4 text-center">Cadastro - Especialidade</h1>
+<br><br>
+    <form action="." method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            {{ especialidade_form.as_p }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+</div>
+
+{% endblock %}

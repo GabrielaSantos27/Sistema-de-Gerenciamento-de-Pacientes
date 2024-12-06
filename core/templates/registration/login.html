@@ -1,0 +1,43 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/loginstyle.css' %}">
+    <link rel="icon" href="{% static 'img/logocuidarmais.png' %}" type="image/x-icon">
+
+</head>
+<body>
+    <header>
+        <nav >
+            <a href="/">Home</a>
+        </nav>
+      </header>
+    
+    <main>
+        <div class="login-container">
+            <div class="login-box">
+                <img src="{% static 'img/logocuidarmais.png' %}" alt="Logo Cuidar Mais" class="logo">
+                <form class="form-signin" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <label for="username" class="sr-only">Código</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Informe CPF/CRM/ID">
+    
+                    <label for="password" class="sr-only">Senha</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Infrome sua senha">
+    
+                    <button type="submit" class="login-button">Entrar</button>
+                </form>
+                <div class="divider">OU</div>
+                <p>Não tem conta? <a href="{% url 'pacienteRegistro' %}">Cadastre-se</a></p>
+            </div>
+    </main>
+    
+    
+    
+</body>
+</html>

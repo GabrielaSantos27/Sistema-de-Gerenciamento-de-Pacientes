@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Fila de Espera{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4 text-center">Adicionar paciente à fila</h1>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ fila_espera_form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Salvar</button>
+    </form>
+
+    {% for item in contexto %}
+        <h2 class="mt-4">Médico: {{ item.medico.usuario.first_name }} {{ item.medico.usuario.last_name }}</h2>
+        <ul class="list-group">
+            {% for fila in item.fila %}
+                <li class="list-group-item">
+                    Paciente: {{ fila.paciente.usuario.first_name }} {{fila.paciente.usuario.last_name}}
+                    <br>
+                    (Criado em: {{ fila.created_at|date:"d/m/Y H:i" }})
+                </li>
+            {% empty %}
+                <li class="list-group-item">Não há pacientes na fila.</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</div>
+{% endblock %}

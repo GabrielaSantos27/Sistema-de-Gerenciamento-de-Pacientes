@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center my-4 text-primary">Relatório do Atendimento dos médicos</h1>
+        <br><br>
+
+        {% for medico_dados in medicos_com_dados %}
+            <h2>Dr. {{ medico_dados.medico.usuario.last_name }} - Especialidade: {{ medico_dados.medico.especialidade }}</h2>
+
+            <h3>Consultas:</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Paciente</th>
+                        <th class="text-center">Data e horários marcados</th>
+                        <th class="text-center">Data e horário do atendimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in medico_dados.consultas_e_fila %}
+                        <tr>
+                            <td class="text-center">{{ item.consulta.paciente.usuario.first_name }} {{ item.consulta.paciente.usuario.last_name }}</td>  <!-- Nome do paciente -->
+                            <td class="text-center">{{ item.consulta.horario.data_horario }}</td>  <!-- Formata a data -->
+                            <td class="text-center">
+                                {% if item.updated_at_fila %}
+                                    {{ item.updated_at_fila|date:"d/m/Y H:i" }}
+                                {% else %}
+                                    Nenhuma atualização
+                                {% endif %}
+                            </td class="text-center">
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center">Este médico não tem consultas registradas.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+        {% empty %}
+            <p>Nenhum médico encontrado.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

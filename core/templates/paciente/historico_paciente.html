@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Histórico {% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- Histórico de Receitas Médicas -->
+  <h2 class="mb-4">Histórico de Receitas Médicas</h2>
+
+  <table class="table table-bordered">
+    <thead class="thead-light">
+      <tr>
+        <th class="text-center">Sintomas apresentados</th>
+        <th class="text-center">Remédio</th>
+        <th class="text-center">Dosagem</th>
+        <th class="text-center">Quantidade de dias</th>
+        <th class="text-center">Quantidade por dia</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for receita in receitas %}
+        <tr>
+          <td class="text-center">{{ receita.sintomas_apresentados }}</td>
+          <td class="text-center">{{ receita.remedio }}</td>
+          <td class="text-center">{{ receita.dosagem }}</td>
+          <td class="text-center">{{ receita.qtd_de_dias }}</td>
+          <td class="text-center">{{ receita.qtd_por_dia }}</td>
+          <td class="text-center">
+            <a href="{% url 'receita' receita_id=receita.id %}" class="text-danger" title="Baixar PDF">
+              <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+            </a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6" class="text-center">Não há consultas registradas para este paciente.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <br><br>
+
+  <!-- Histórico de Consultas -->
+  <h2 class="mb-4">Histórico de Consultas</h2>
+
+  <table class="table table-bordered">
+    <thead class="thead-light">
+      <tr>
+        <th class="text-center">Médico</th>
+        <th class="text-center">Horário</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for consulta in consultas %}
+        <tr>
+          <td class="text-center">{{ consulta.medico }}</td>
+          <td class="text-center">{{ consulta.horario.data_horario }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4" class="text-center">Não há consultas registradas para este paciente.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock %}

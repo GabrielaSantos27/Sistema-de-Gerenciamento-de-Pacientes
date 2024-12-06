@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ficha Médica{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
+<div class="container">
+    <h1 class="text-center my-4">Ficha Médica</h1>
+    <h5 class="text-center my-4">Inclua informações relevantes que podem ser úteis durante as consultas com os médicos da especialidade selecionada</h5>
+
+    <form action="." method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ ficha_medica.as_p }}
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+</div>
+
+{% endblock %}

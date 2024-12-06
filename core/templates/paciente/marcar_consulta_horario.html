@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="container">
+    <h1 class="text-center my-4">Marcar Consulta</h1>
+
+    <!-- O formulário será exibido independentemente de haver horários disponíveis -->
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Especialidade escolhida: <strong> {{ especialidade.nome }}</strong></label>
+            <input name="nome" type="hidden" value="{{ especialidade.id }}">
+        </div>
+
+        <div class="form-group">
+            <label for="horario">Escolha o Horário:</label>
+            <select id="horario" name="horario" class="form-control" required>
+                <option value="">-- Selecione --</option>
+
+                {% if horarios_disponiveis %}
+                    {% for horario in horarios_disponiveis %}
+                        <option value="{{ horario.id }}">
+                            {{ horario.medico.especialidade }} - {{ horario.medico.usuario.get_full_name }} - {{ horario.data_horario }}
+                        </option>
+                    {% endfor %}
+                {% else %}
+                    <!-- Se não houver horários disponíveis, mostra a opção "Nenhum horário disponível" -->
+                    <option value="">Não há horários disponíveis</option>
+                {% endif %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Marcar Consulta</button>
+    </form>
+</div>
+
+{% endblock %}
